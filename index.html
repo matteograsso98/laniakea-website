@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LANIAKEA — Orchestrazione software-defined per costellazioni satellitari</title>
+<meta name="description" content="LANIAKEA sviluppa software di orchestrazione intelligente per reti satellitari: monitora e predice gli stati futuri della rete per abilitare decisioni proattive e ottimali.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='5' fill='%2360a5fa'/><ellipse cx='16' cy='16' rx='14' ry='6' fill='none' stroke='%2360a5fa' stroke-width='1.5' transform='rotate(-25 16 16)'/></svg>">
+<style>
+  :root{
+    --bg:#070a12; --bg-soft:#0d1220; --line:#1c2438;
+    --fg:#e8ecf5; --fg-dim:#98a3bb; --accent:#60a5fa; --accent-soft:#1e3a5f;
+    --maxw:960px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* language switching — pure CSS, no JS dependency for content */
+  html[data-lang="it"] [lang="en"]{display:none}
+  html[data-lang="en"] [lang="it"]{display:none}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--accent)}
+
+  header{
+    position:sticky; top:0; z-index:10; backdrop-filter:blur(10px);
+    background:rgba(7,10,18,.78); border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.14em; font-size:14px}
+  .brand svg{width:22px; height:22px; flex:none}
+  .lang{display:flex; gap:2px; border:1px solid var(--line); border-radius:999px; padding:3px}
+  .lang button{
+    background:none; border:0; color:var(--fg-dim); font:inherit; font-size:12px; font-weight:600;
+    padding:4px 11px; border-radius:999px; cursor:pointer;
+  }
+  .lang button[aria-pressed="true"]{background:var(--accent-soft); color:#fff}
+
+  .hero{padding:96px 0 80px; position:relative; overflow:hidden}
+  .hero::before{
+    content:""; position:absolute; inset:-40% 0 auto; height:520px; pointer-events:none;
+    background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(96,165,250,.16), transparent 70%);
+  }
+  .hero .wrap{position:relative}
+  .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); border:1px solid var(--accent-soft); border-radius:999px; padding:5px 13px; margin-bottom:26px;
+  }
+  h1{font-size:clamp(32px,5.4vw,52px); line-height:1.12; letter-spacing:-.02em; margin:0 0 22px; font-weight:650}
+  h1 em{font-style:normal; color:var(--accent)}
+  .lede{font-size:clamp(17px,2.2vw,20px); color:var(--fg-dim); max-width:640px; margin:0 0 34px}
+  .cta{display:inline-block; background:var(--accent); color:#061020; font-weight:650; text-decoration:none;
+       padding:13px 26px; border-radius:8px; font-size:15px}
+  .cta:hover{filter:brightness(1.08)}
+
+  section{padding:72px 0; border-top:1px solid var(--line)}
+  h2{font-size:clamp(24px,3.4vw,32px); letter-spacing:-.015em; margin:0 0 14px; font-weight:640}
+  .sub{color:var(--fg-dim); max-width:680px; margin:0 0 40px}
+
+  .grid{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .card{background:var(--bg-soft); border:1px solid var(--line); border-radius:12px; padding:26px}
+  .card h3{margin:0 0 8px; font-size:17px; font-weight:620}
+  .card p{margin:0; color:var(--fg-dim); font-size:15px}
+  .stat{font-size:30px; font-weight:680; color:var(--accent); letter-spacing:-.02em; display:block; margin-bottom:6px}
+  .stat-label{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-dim); display:block; margin-bottom:14px}
+
+  ol.steps{counter-reset:s; list-style:none; padding:0; margin:0; display:grid; gap:16px}
+  ol.steps li{
+    counter-increment:s; position:relative; padding-left:52px;
+    color:var(--fg-dim); font-size:15px;
+  }
+  ol.steps li::before{
+    content:counter(s); position:absolute; left:0; top:-2px; width:34px; height:34px;
+    display:grid; place-items:center; border-radius:9px;
+    background:var(--accent-soft); color:var(--accent); font-weight:680; font-size:14px;
+  }
+  ol.steps strong{color:var(--fg); font-weight:620; display:block; margin-bottom:2px}
+
+  .team{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .team .role{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 4px}
+  .team h3{margin:0 0 10px; font-size:20px}
+  .team ul{margin:0; padding-left:18px; color:var(--fg-dim); font-size:14.5px}
+  .team li{margin-bottom:5px}
+
+  footer{border-top:1px solid var(--line); padding:44px 0; color:var(--fg-dim); font-size:13.5px}
+  footer .wrap{display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between}
+  footer a{color:var(--fg-dim)}
+
+  @media (max-width:600px){
+    .hero{padding:64px 0 56px}
+    section{padding:56px 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="5" fill="#60a5fa"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="#60a5fa" stroke-width="1.5" transform="rotate(-25 16 16)"/>
+      </svg>
+      LANIAKEA
+    </div>
+    <div class="lang">
+      <button type="button" data-set="it" aria-pressed="true">IT</button>
+      <button type="button" data-set="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow" lang="it">Software per reti satellitari</span>
+    <span class="eyebrow" lang="en">Software for satellite networks</span>
+
+    <h1 lang="it">Orchestrazione <em>software-defined</em> per costellazioni satellitari</h1>
+    <h1 lang="en">Software-defined <em>orchestration</em> for satellite constellations</h1>
+
+    <p class="lede" lang="it">
+      LANIAKEA sviluppa software di orchestrazione intelligente che rende la gestione
+      delle reti satellitari più semplice, più efficiente e più scalabile.
+    </p>
+    <p class="lede" lang="en">
+      LANIAKEA builds intelligent orchestration software that unlocks simpler, more efficient
+      and more scalable network management for satellite constellations.
+    </p>
+
+    <a class="cta" href="#contatti" lang="it">Contattaci</a>
+    <a class="cta" href="#contatti" lang="en">Get in touch</a>
+  </div>
+</div>
+
+<section id="problema">
+  <div class="wrap">
+    <h2 lang="it">Il problema</h2>
+    <h2 lang="en">The problem</h2>
+
+    <p class="sub" lang="it">
+      Man mano che le costellazioni satellitari diventano più grandi e orbitano più vicino alla Terra,
+      gli strumenti di gestione tradizionali risultano inefficienti e troppo specializzati per scalare.
+    </p>
+    <p class="sub" lang="en">
+      As satellite constellations become larger and orbit closer to Earth, traditional management
+      tools are inefficient and too specialised to scale.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <span class="stat-label" lang="it">Dinamica di costellazione</span>
+        <span class="stat-label" lang="en">Constellation dynamics</span>
+        <span class="stat">7,5 km/s</span>
+        <p lang="it">Alla velocità orbitale LEO la topologia di rete cambia in continuazione: gli approcci tradizionali non sono progettati per dinamiche così estreme.</p>
+        <p lang="en">At LEO orbital speed the network topology changes continuously. Traditional approaches are ill-equipped for such extreme dynamics.</p>
+      </div>
+      <div class="card">
+        <span class="stat-label" lang="it">Complessità di rete</span>
+        <span class="stat-label" lang="en">Network complexity</span>
+        <span class="stat">10³+</span>
+        <p lang="it">Una copertura LEO richiede da centinaia a migliaia di collegamenti inter-satellite. I metodi classici degradano rapidamente in queste condizioni.</p>
+        <p lang="en">LEO coverage requires hundreds to thousands of inter-satellite links. Classical methods under-perform under these conditions.</p>
+      </div>
+      <div class="card">
+        <span class="stat-label" lang="it">Requisiti prestazionali</span>
+        <span class="stat-label" lang="en">Performance requirements</span>
+        <span class="stat">6G</span>
+        <p lang="it">Le reti non terrestri di prossima generazione puntano a un salto prestazionale di un ordine di grandezza rispetto ai requisiti attuali.</p>
+        <p lang="en">Next-generation non-terrestrial networks target an order-of-magnitude gain over current performance requirements.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="soluzione">
+  <div class="wrap">
+    <h2 lang="it">La soluzione</h2>
+    <h2 lang="en">Our solution</h2>
+
+    <p class="sub" lang="it">
+      Un livello di orchestrazione intelligente che <strong>predice le decisioni ottimali nel tempo</strong>,
+      invece di reagire agli eventi quando si sono già verificati.
+    </p>
+    <p class="sub" lang="en">
+      An intelligent orchestration layer that <strong>predicts optimal decisions over time</strong>,
+      instead of reacting to events after they have already happened.
+    </p>
+
+    <ol class="steps">
+      <li lang="it"><strong>Monitoraggio continuo della rete</strong>Lo stato della costellazione — collegamenti, traffico, risorse — viene osservato in modo continuo e unificato.</li>
+      <li lang="en"><strong>Continuous network monitoring</strong>The state of the constellation — links, traffic, resources — is observed continuously and in a unified way.</li>
+
+      <li lang="it"><strong>Predizione degli stati futuri</strong>Il sistema anticipa l'evoluzione della rete, abilitando decisioni proattive anziché correttive.</li>
+      <li lang="en"><strong>Prediction of future network states</strong>The system anticipates how the network will evolve, enabling proactive rather than corrective decisions.</li>
+
+      <li lang="it"><strong>Decisioni ottimali di orchestrazione</strong>Riconfigurazione dei percorsi in caso di link interrotti, allocazione delle risorse per garantire la qualità del servizio, spegnimento selettivo di risorse per il risparmio energetico.</li>
+      <li lang="en"><strong>Optimal orchestration decisions</strong>Re-routing when a link breaks, resource allocation to guarantee quality of service, and selective shutdown of resources to save energy.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="innovazione">
+  <div class="wrap">
+    <h2 lang="it">Il carattere innovativo</h2>
+    <h2 lang="en">What makes it innovative</h2>
+
+    <p class="sub" lang="it">
+      L'attività di LANIAKEA è centrata sulla ricerca e sviluppo di algoritmi propri di orchestrazione
+      predittiva per reti in movimento.
+    </p>
+    <p class="sub" lang="en">
+      LANIAKEA's activity is centred on the research and development of proprietary predictive
+      orchestration algorithms for networks in motion.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3 lang="it">Da reattivo a predittivo</h3>
+        <h3 lang="en">From reactive to predictive</h3>
+        <p lang="it">Gli strumenti attuali reagiscono agli eventi di rete. Il nostro approccio li anticipa, riducendo l'impatto di guasti e congestioni prima che si manifestino.</p>
+        <p lang="en">Current tools react to network events. Our approach anticipates them, reducing the impact of failures and congestion before they occur.</p>
+      </div>
+      <div class="card">
+        <h3 lang="it">Software-defined e indipendente dall'hardware</h3>
+        <h3 lang="en">Software-defined and hardware-agnostic</h3>
+        <p lang="it">Il livello di orchestrazione è disaccoppiato dal segmento spaziale, ed è utilizzabile sia a terra sia a bordo.</p>
+        <p lang="en">The orchestration layer is decoupled from the space segment and can run both on-ground and on-board.</p>
+      </div>
+      <div class="card">
+        <h3 lang="it">Estendibile agli standard NTN</h3>
+        <h3 lang="en">Extendible to NTN standards</h3>
+        <p lang="it">Progettato per essere conforme ai protocolli 5G/6G per reti non terrestri, scalabile e flessibile per sistemi reali.</p>
+        <p lang="en">Designed to be compliant with 5G/6G non-terrestrial network protocols: scalable and flexible for real systems.</p>
+      </div>
+      <div class="card">
+        <h3 lang="it">Non solo satelliti</h3>
+        <h3 lang="en">Beyond satellites</h3>
+        <p lang="it">La stessa tecnologia è applicabile a qualsiasi rete in movimento, inclusi droni e piattaforme aeree.</p>
+        <p lang="en">The same technology applies to any kind of moving network, including drones and airborne platforms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <h2 lang="it">Team</h2>
+    <h2 lang="en">Team</h2>
+
+    <div class="team">
+      <div class="card">
+        <p class="role">Co-Founder &amp; CEO</p>
+        <h3>Matteo</h3>
+        <ul lang="it">
+          <li>Esperienza nel settore delle telecomunicazioni spaziali presso un operatore industriale di riferimento.</li>
+          <li>Responsabile di attività di R&amp;D su simulatori software per costellazioni e sistemi satellitari.</li>
+          <li>Sviluppo di soluzioni intelligenti per l'ottimizzazione e l'automazione di rete.</li>
+          <li>Esperienza di ricerca in Fisica Teorica, Cosmologia e AI (UCL, Università degli Studi Roma Tre, SISSA).</li>
+        </ul>
+        <ul lang="en">
+          <li>Experience in space telecom with a leading industry player.</li>
+          <li>Led R&amp;D activities on software simulators for constellations and satellite systems.</li>
+          <li>Developed intelligent solutions for network optimisation and automation.</li>
+          <li>Research experience in Theoretical Physics, Cosmology and AI (UCL, Università degli Studi Roma Tre, SISSA).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p class="role">Co-Founder &amp; CTO</p>
+        <h3>Andrea</h3>
+        <ul lang="it">
+          <li>MSc in Fisica, Universitat de Barcelona.</li>
+          <li>MSc in Computer Science, Universiteit van Amsterdam.</li>
+          <li>Esperienza di ricerca in Fisica Teorica e Quantum Computing (Università degli Studi di Roma Tor Vergata, Fermi National Accelerator Laboratory).</li>
+        </ul>
+        <ul lang="en">
+          <li>MSc in Physics, Universitat de Barcelona.</li>
+          <li>MSc in Computer Science, Universiteit van Amsterdam.</li>
+          <li>Research experience in Theoretical Physics and Quantum Computing (Università degli Studi di Roma Tor Vergata, Fermi National Accelerator Laboratory).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contatti">
+  <div class="wrap">
+    <h2 lang="it">Contatti</h2>
+    <h2 lang="en">Contact</h2>
+    <p class="sub" lang="it">
+      Per collaborazioni, progetti di ricerca o informazioni sulla tecnologia:
+      <a href="mailto:info@laniakea.technology">info@laniakea.technology</a>
+    </p>
+    <p class="sub" lang="en">
+      For partnerships, research projects or information about the technology:
+      <a href="mailto:info@laniakea.technology">info@laniakea.technology</a>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <span lang="it">© <span id="y"></span> LANIAKEA — Tutti i diritti riservati.</span>
+      <span lang="en">© <span id="y2"></span> LANIAKEA — All rights reserved.</span>
+    </div>
+    <div>
+      <a href="note-legali.html" lang="it">Note legali</a>
+      <a href="note-legali.html" lang="en">Legal notice</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btns = document.querySelectorAll('.lang button');
+    function set(lang) {
+      root.setAttribute('data-lang', lang);
+      root.setAttribute('lang', lang);
+      btns.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.set === lang));
+      });
+      try { localStorage.setItem('laniakea-lang', lang); } catch (e) {}
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { set(b.dataset.set); });
+    });
+    var saved;
+    try { saved = localStorage.getItem('laniakea-lang'); } catch (e) {}
+    if (saved) set(saved);
+    else if ((navigator.language || '').slice(0, 2).toLowerCase() !== 'it') set('en');
+
+    var y = new Date().getFullYear();
+    document.getElementById('y').textContent = y;
+    document.getElementById('y2').textContent = y;
+  })();
+</script>
+
+</body>
+</html>
