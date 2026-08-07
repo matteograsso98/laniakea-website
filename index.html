@@ -29,6 +29,10 @@
   header .wrap{display:flex; align-items:center; height:60px}
   .brand{display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.16em; font-size:14px}
   .brand svg{width:22px; height:22px; flex:none}
+  .nav{margin-left:auto; display:flex; align-items:center; gap:22px}
+  .nav a{color:var(--fg-dim); text-decoration:none; font-size:13.5px; font-weight:560; letter-spacing:.02em}
+  .nav a:hover{color:var(--fg)}
+  .nav a.nav-cta{color:var(--accent)}
 
   /* ---- document-level backdrop ----------------------------------------
      The artwork is anchored to the top of the page and scrolls with it,
@@ -39,7 +43,7 @@
     position:absolute; top:0; left:0; right:0; z-index:0; pointer-events:none;
     height:clamp(1000px, 205vh, 2200px);
     background-image:
-      url("assets/laniakea-bg.jpg"),
+      url("assets/laniakea-bg.png"),
       radial-gradient(ellipse 44% 26% at 60% 20%, rgba(240,180,41,.20), transparent 68%),
       radial-gradient(ellipse 68% 34% at 42% 16%, rgba(160,110,20,.10), transparent 72%);
     background-repeat:no-repeat;
@@ -127,6 +131,10 @@
       </svg>
       LANIAKEA
     </div>
+    <nav class="nav">
+      <a href="assets/laniakea-whitepaper.pdf" target="_blank" rel="noopener" class="nav-cta">White paper</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
@@ -213,6 +221,16 @@
         <p>The same technology applies to any kind of moving network, including drones and airborne platforms.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="whitepaper">
+  <div class="wrap">
+    <h2>White paper</h2>
+    <p class="sub">
+      A fast and open-source Physical-Optics implementation for AFR/SFPB reflector antennas — our latest technical publication.
+    </p>
+    <a class="cta" href="assets/laniakea-whitepaper.pdf" target="_blank" rel="noopener">Download the white paper (PDF)</a>
   </div>
 </section>
 
