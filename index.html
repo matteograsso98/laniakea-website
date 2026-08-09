@@ -29,6 +29,7 @@
   header .wrap{display:flex; align-items:center; height:60px}
   .brand{display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.16em; font-size:14px}
   .brand svg{width:22px; height:22px; flex:none}
+  .brand img{height:26px; width:auto; display:block; flex:none}
   .nav{margin-left:auto; display:flex; align-items:center; gap:22px}
   .nav a{color:var(--fg-dim); text-decoration:none; font-size:13.5px; font-weight:560; letter-spacing:.02em}
   .nav a:hover{color:var(--fg)}
@@ -170,15 +171,12 @@
 <header>
   <div class="wrap">
     <div class="brand">
-      <svg viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="5" fill="#f0b429"/>
-        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="#f0b429" stroke-width="1.5" transform="rotate(-25 16 16)"/>
-      </svg>
-      LANIAKEA
+      <img src="assets/laniakea2-light.svg" alt="Laniakea logo">
     </div>
     <nav class="nav">
-      <a href="assets/whitepaper_antenna_rust.pdf" target="_blank" rel="noopener" class="nav-cta">White paper</a>
-      <a href="#contact">Contact</a>
+      <a href="#whitepaper">White paper</a>
+      <a href="#team">Team</a>
+      <a href="#contact" class="nav-cta">Contact</a>
     </nav>
   </div>
 </header>
@@ -370,7 +368,18 @@ var NEWS = [
   if(!bar || !NEWS.length) return;
   var latest = NEWS[0];
   var dismissKey = 'laniakea-news-dismissed';
-  if(localStorage.getItem(dismissKey) === latest.id) return;
+  // localStorage can throw (not just return null) on some browsers when the
+  // page is opened directly as a local file rather than served over http(s) —
+  // Safari in particular blocks storage APIs on file:// origins. Without this
+  // guard, that throw happens before bar.hidden is ever set to false, so the
+  // banner silently never appears. Treat "storage unavailable" as "not dismissed".
+  var alreadyDismissed = false;
+  try {
+    alreadyDismissed = localStorage.getItem(dismissKey) === latest.id;
+  } catch (err) {
+    alreadyDismissed = false;
+  }
+  if(alreadyDismissed) return;
 
   bar.innerHTML =
     '<div class="wrap news-bar-inner">' +
@@ -388,7 +397,7 @@ var NEWS = [
   bar.querySelector('.news-close').addEventListener('click', function(e){
     e.preventDefault();
     e.stopPropagation();
-    localStorage.setItem(dismissKey, latest.id);
+    try { localStorage.setItem(dismissKey, latest.id); } catch (err) {}
     bar.classList.remove('show');
     setTimeout(function(){ bar.hidden = true; }, 400);
   });
