@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LANIAKEA — Software-defined orchestration for satellite constellations</title>
-<meta name="description" content="LANIAKEA builds intelligent orchestration software for satellite networks: monitoring and predicting future network states to enable proactive, optimal decisions.">
+<title>LANIAKEA — Software-defined orchestration for dynamic networks</title>
+<meta name="description" content="LANIAKEA builds intelligent orchestration software for dynamic networks, from satellite constellations to drones and aircraft: monitoring and predicting future network states to enable proactive, optimal decisions.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='5' fill='%23f0b429'/><ellipse cx='16' cy='16' rx='14' ry='6' fill='none' stroke='%23f0b429' stroke-width='1.5' transform='rotate(-25 16 16)'/></svg>">
 <style>
   :root{
@@ -149,6 +149,47 @@
   .prose p:last-child{margin-bottom:0}
   .prose strong{color:var(--fg); font-weight:620}
 
+  /* ---- dynamic network figure (problem section) ---------------------
+     Canvas animation of a multi-layer network: GEO, MEO, two LEO shells,
+     aircraft and UAVs. Links form and break as nodes move; the script at
+     the bottom of the page drives it. */
+  .problem-prose{margin-top:-16px}
+  .netviz{margin:44px 0 0; background:rgba(11,9,6,.62); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px);
+          border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  .netviz canvas{display:block; width:100%; height:460px}
+  @media (max-width:700px){
+    .netviz canvas{height:340px}
+  }
+
+  /* ---- contact form --------------------------------------------------
+     Posts to FormSubmit (formsubmit.co), which forwards each submission by
+     email. The script at the bottom of the page handles sending. */
+  .contact-form{max-width:760px; display:grid; gap:22px}
+  .cf-row{border:0; margin:0; padding:0; display:grid; gap:16px; grid-template-columns:1fr 1fr; min-width:0}
+  .cf-row legend{padding:0; margin-bottom:10px; font-size:15px; font-weight:600; color:var(--fg)}
+  .cf-field{display:grid; gap:8px; min-width:0}
+  .cf-label{font-size:13.5px; font-weight:560; color:var(--fg)}
+  .cf-label em{font-style:normal; font-weight:400; color:var(--fg-dim); margin-left:4px}
+  .contact-form input, .contact-form textarea{
+    width:100%; font:inherit; font-size:15px; color:var(--fg);
+    background:rgba(11,9,6,.62); border:1px solid #3a2f1a; border-radius:999px; padding:12px 20px;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .contact-form textarea{border-radius:18px; resize:vertical; min-height:130px}
+  .contact-form input:focus, .contact-form textarea:focus{
+    outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(240,180,41,.18)
+  }
+  .contact-form .cf-invalid{border-color:#e07a5f}
+  .cf-date input{max-width:240px; color-scheme:dark}
+  .cf-honey{position:absolute; left:-9999px; width:1px; height:1px; opacity:0}
+  .cf-actions{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+  .cf-actions .cta{border:0; cursor:pointer; font-family:inherit}
+  .cf-actions .cta[disabled]{opacity:.6; cursor:default}
+  .cf-status{margin:0; font-size:14px; color:var(--fg-dim)}
+  .cf-status.ok{color:var(--accent)}
+  .cf-status.err{color:#e07a5f}
+  @media (max-width:560px){ .cf-row{grid-template-columns:1fr} }
+
   footer{border-top:1px solid var(--line); padding:44px 0; color:var(--fg-dim); font-size:13.5px}
   footer .wrap{display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between}
   footer a{color:var(--fg-dim)}
@@ -187,10 +228,10 @@
 
 <div class="hero">
   <div class="wrap">
-    <h1>Software-defined <em>orchestration</em> for satellite constellations</h1>
+    <h1>Software-defined <em>orchestration</em> for dynamic networks</h1>
     <p class="lede">
       We build intelligent orchestration software that unlocks simpler, more efficient
-      and more scalable network management for satellite constellations.
+      and more scalable network management for dynamic networks.
     </p>
     <a class="cta" href="#contact">Get in touch</a>
   </div>
@@ -200,27 +241,27 @@
   <div class="wrap">
     <h2>The problem</h2>
     <p class="sub">
-      As satellite constellations become larger and orbit closer to Earth, <br>
-      traditional management tools are inefficient and too specialised to scale.
+      Dynamic networks such as satellite constellations are growing larger, orbiting closer to Earth
+      and linking across layers: to satellites in other orbits, to UAVs and to aircraft.
+      Traditional management tools are inefficient and too specialised to scale.
     </p>
 
-    <div class="grid">
-      <div class="card">
-        <span class="stat-label">Constellation dynamics</span>
-        <span class="stat">≈7.5 km/s</span>
-        <p>At LEO orbital speed the network topology changes continuously. Traditional approaches are ill-equipped for such extreme dynamics.</p>
-      </div>
-      <div class="card">
-        <span class="stat-label">Network complexity</span>
-        <span class="stat"> +10³ satellite links
-        <p>LEO coverage requires hundreds to thousands of inter-satellite links. Classical methods under-perform under these conditions.</p>
-      </div>
-      <div class="card">
-        <span class="stat-label">Performance requirements</span>
-        <span class="stat">5G and beyond </span>
-        <p>Next-generation non-terrestrial networks target an order-of-magnitude gain over current performance requirements.</p>
-      </div>
+    <div class="prose problem-prose">
+      <p>
+        <strong>The network dynamics are extreme.</strong> A LEO satellite travels at roughly 7.5&nbsp;km/s
+        through a mesh of thousands of links that reach other LEO satellites, drones, aircraft and
+        satellites in different orbits. The topology never stops changing, and classical methods
+        under-perform under these conditions.
+      </p>
+      <p>
+        <strong>Performance requirements are rising.</strong> For 5G and beyond, next-generation
+        non-terrestrial networks target an order-of-magnitude gain over today&rsquo;s performance requirements.
+      </p>
     </div>
+
+    <figure class="netviz" aria-label="Animated illustration of a dynamic network spanning GEO, MEO and LEO satellites, aircraft and drones">
+      <canvas id="netviz-canvas"></canvas>
+    </figure>
   </div>
 </section>
 
@@ -233,7 +274,7 @@
     </p>
 
     <ol class="steps">
-      <li><strong>Continuous network monitoring</strong>The state of the constellation, links, traffic, resources, is observed continuously and in a unified way.</li>
+      <li><strong>Continuous network monitoring</strong>The state of the network, links, traffic, resources, is observed continuously and in a unified way.</li>
       <li><strong>Prediction of future network states</strong>The system anticipates how the network will evolve, enabling proactive rather than corrective decisions.</li>
       <li><strong>Optimal orchestration decisions</strong>Re-routing when a link breaks, resource allocation to guarantee quality of service, and selective shutdown of resources to save energy are just a subset of possible use cases.</li>
     </ol>
@@ -305,9 +346,44 @@
   <div class="wrap">
     <h2>Contact</h2>
     <p class="sub">
-    Get in touch to discuss your current issues or for demos, partnerships and research projects:
-      <a href="mailto:info@laniakea.technology">info@laniakea.technology</a>
+      Get in touch to discuss your current issues or for demos, partnerships and research projects.
     </p>
+
+    <form id="contact-form" class="contact-form" novalidate>
+      <fieldset class="cf-row">
+        <legend>Name</legend>
+        <label class="cf-field">
+          <span class="cf-label">First name <em>(required)</em></span>
+          <input type="text" name="First name" autocomplete="given-name" required>
+        </label>
+        <label class="cf-field">
+          <span class="cf-label">Last name <em>(required)</em></span>
+          <input type="text" name="Last name" autocomplete="family-name" required>
+        </label>
+      </fieldset>
+      <label class="cf-field">
+        <span class="cf-label">Email <em>(required)</em></span>
+        <input type="email" name="email" autocomplete="email" required>
+      </label>
+      <label class="cf-field">
+        <span class="cf-label">Phone</span>
+        <input type="tel" name="Phone" autocomplete="tel">
+      </label>
+      <label class="cf-field cf-date">
+        <span class="cf-label">Project start date</span>
+        <input type="date" name="Project start date">
+      </label>
+      <label class="cf-field">
+        <span class="cf-label">Project details <em>(required)</em></span>
+        <textarea name="Project details" rows="5" required></textarea>
+      </label>
+      <!-- spam trap: real visitors never see or fill this -->
+      <input type="text" name="_honey" class="cf-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="cf-actions">
+        <button type="submit" class="cta">Submit</button>
+        <p class="cf-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
   </div>
 </section>
 
@@ -400,6 +476,408 @@ var NEWS = [
     try { localStorage.setItem(dismissKey, latest.id); } catch (err) {}
     bar.classList.remove('show');
     setTimeout(function(){ bar.hidden = true; }, 400);
+  });
+})();
+</script>
+
+<script>
+// ---- dynamic network figure ------------------------------------------
+// Nodes ride concentric arcs around a curved Earth limb. Each frame the
+// link set is recomputed from proximity rules per layer, so links fade in
+// and out as the topology changes; end-to-end routes found on the
+// current topology light up briefly. Altitudes and speeds are illustrative, not to scale.
+(function(){
+  var canvas = document.getElementById('netviz-canvas');
+  if(!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var GOLD = '240,180,41', CREAM = '242,237,227';
+  var W, H, dpr, cx, cy, R, ground, span, PHI;
+  var nodes = [], links = {}, packets = [], routes = [];
+  var t = 0, last = 0, running = false, visible = true;
+  var nextRoute = 0;
+
+  function rand(a, b){ return a + Math.random() * (b - a); }
+
+  function layout(){
+    var rect = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = rect.width; H = rect.height;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ground = H - (W < 640 ? 30 : 46);
+    R = Math.max(W * 2, 900);
+    cx = W / 2; cy = ground + R;
+    span = ground - 26;
+    PHI = Math.asin(Math.min(1, (W / 2 + 70) / R));
+  }
+
+  // layer altitude as a fraction of the drawable height
+  var LAYERS = {
+    uav:  { alt: .06 },
+    air:  { alt: .15 },
+    leo1: { alt: .36 },
+    leo2: { alt: .47 },
+    meo:  { alt: .70 },
+    geo:  { alt: .93 }
+  };
+  function radius(layer, jitter){ return R + LAYERS[layer].alt * span + (jitter || 0); }
+
+  function build(){
+    nodes = []; links = {}; packets = []; routes = [];
+    var id = 0;
+    function add(type, layer, phi, speed, extra){
+      var n = { id: id++, type: type, layer: layer, phi: phi, phi0: phi, speed: speed, dr: 0, x: 0, y: 0 };
+      for(var k in extra) n[k] = extra[k];
+      nodes.push(n); return n;
+    }
+    var narrow = W < 640;
+    var range = 2 * PHI;
+    // GEO: fixed relative to the ground
+    (narrow ? [-0.4, 0.45] : [-0.5, 0.05, 0.6]).forEach(function(f){ add('geo', 'geo', f * PHI, 0); });
+    // MEO: slow drift
+    var nm = narrow ? 3 : 5;
+    for(var i = 0; i < nm; i++) add('meo', 'meo', -PHI + (i + .5) * range / nm, 0.0065);
+    // LEO: two shells crossing in opposite directions, evenly phased
+    var spacing = narrow ? 52 : 64;
+    var n1 = Math.round(2 * R * Math.sin(PHI) / spacing);
+    for(i = 0; i < n1; i++) add('leo', 'leo1', -PHI + (i + .5) * range / n1, 0.034, { dr: (i % 2 ? 3 : -3), ring: 1, idx: i });
+    var n2 = Math.round(n1 * .85);
+    for(i = 0; i < n2; i++) add('leo', 'leo2', -PHI + (i + .2) * range / n2, -0.021, { dr: (i % 2 ? -3 : 3), ring: 2, idx: i });
+    // aircraft
+    [0.15, 0.7].forEach(function(f){ add('air', 'air', f * PHI, 0.004 * (f > 0 ? 1 : -1)); });
+    // UAV swarms of three, loitering around an anchor
+    [-0.3, 0.45].forEach(function(f, c){
+      for(var j = 0; j < 3; j++){
+        add('uav', 'uav', f * PHI + (j - 1) * 0.022, 0, {
+          cluster: c, head: j === 0, dr: [0, 14, -6][j],
+          wob: rand(0, 6.28), wobS: rand(.5, .9)
+        });
+      }
+    });
+  }
+
+  function place(dt){
+    var lim = PHI + 0.08;
+    nodes.forEach(function(n){
+      if(n.type === 'uav'){
+        n.phi = n.phi0 + 0.012 * Math.sin(t * n.wobS + n.wob);
+      } else {
+        n.phi += n.speed * dt;
+        if(n.phi > lim) n.phi -= 2 * lim;
+        if(n.phi < -lim) n.phi += 2 * lim;
+      }
+      var r = radius(n.layer, n.dr);
+      n.x = cx + r * Math.sin(n.phi);
+      n.y = cy - r * Math.cos(n.phi);
+    });
+  }
+
+  function dist(a, b){ var dx = a.x - b.x, dy = a.y - b.y; return Math.sqrt(dx * dx + dy * dy); }
+  function onScreen(n){ return n.x > -40 && n.x < W + 40; }
+
+  // nearest k nodes from `pool` to `a` within maxD
+  function nearest(a, pool, k, maxD){
+    return pool.filter(function(b){ return b !== a && onScreen(b); })
+      .map(function(b){ return { n: b, d: dist(a, b) }; })
+      .filter(function(o){ return o.d < maxD; })
+      .sort(function(p, q){ return p.d - q.d; })
+      .slice(0, k).map(function(o){ return o.n; });
+  }
+
+  function computeLinks(){
+    var active = {};
+    function on(a, b, kind){
+      var key = a.id < b.id ? a.id + '-' + b.id : b.id + '-' + a.id;
+      active[key] = true;
+      if(!links[key]) links[key] = { a: a, b: b, kind: kind, alpha: 0 };
+    }
+    var by = { geo: [], meo: [], leo1: [], leo2: [], air: [], uav: [] };
+    nodes.forEach(function(n){ by[n.layer].push(n); });
+    var gap = span * .22;
+
+    // in-plane neighbours within each LEO shell (stable)
+    ['leo1', 'leo2'].forEach(function(l){
+      var s = by[l].filter(onScreen).sort(function(p, q){ return p.x - q.x; });
+      for(var i = 1; i < s.length; i++) if(dist(s[i - 1], s[i]) < gap * 1.15) on(s[i - 1], s[i], 'isl');
+    });
+    // cross-shell links (churn constantly, the shells move in opposite directions)
+    by.leo1.forEach(function(a){ nearest(a, by.leo2, 1, gap * .62).forEach(function(b){ on(a, b, 'isl'); }); });
+    // MEO <-> LEO, MEO <-> MEO, MEO <-> GEO
+    by.meo.forEach(function(a){
+      nearest(a, by.leo2, 2, span * .42).forEach(function(b){ on(a, b, 'cross'); });
+      nearest(a, by.geo, 1, span * .55).forEach(function(b){ on(a, b, 'cross'); });
+      nearest(a, by.meo, 1, W * .32).forEach(function(b){ on(a, b, 'isl'); });
+    });
+    // GEO <-> GEO and GEO -> LEO
+    by.geo.forEach(function(a){
+      nearest(a, by.geo, 1, W * .5).forEach(function(b){ on(a, b, 'isl'); });
+      nearest(a, by.leo2, 1, span * .55).forEach(function(b){ on(a, b, 'cross'); });
+    });
+    // aircraft -> LEO
+    by.air.forEach(function(a){ nearest(a, by.leo1, 1, span * .3).forEach(function(b){ on(a, b, 'cross'); }); });
+    // UAV swarms: mesh inside the swarm, the lead drone uplinks to aircraft or LEO
+    by.uav.forEach(function(a){
+      by.uav.forEach(function(b){ if(a.cluster === b.cluster && a.id < b.id) on(a, b, 'isl'); });
+      if(a.head){
+        var air = nearest(a, by.air, 1, span * .2);
+        (air.length ? air : nearest(a, by.leo1, 1, span * .4)).forEach(function(b){ on(a, b, 'cross'); });
+      }
+    });
+
+    for(var k in links){
+      var L = links[k];
+      L.on = !!active[k];
+    }
+  }
+
+  function fadeLinks(dt){
+    var rate = Math.min(1, dt * 3.5);
+    for(var k in links){
+      var L = links[k];
+      L.alpha += ((L.on ? 1 : 0) - L.alpha) * rate;
+      if(!L.on && L.alpha < .01) delete links[k];
+    }
+  }
+
+  function adjacency(){
+    var adj = {};
+    for(var k in links){
+      var L = links[k];
+      if(!L.on || L.alpha < .6) continue;
+      (adj[L.a.id] = adj[L.a.id] || []).push(L.b);
+      (adj[L.b.id] = adj[L.b.id] || []).push(L.a);
+    }
+    return adj;
+  }
+
+  // breadth-first route on the current topology
+  function route(src, dstTest){
+    var adj = adjacency(), prev = {}, seen = {}, q = [src];
+    seen[src.id] = true;
+    while(q.length){
+      var n = q.shift();
+      if(n !== src && dstTest(n)){
+        var path = [n];
+        while(prev[n.id]){ n = prev[n.id]; path.unshift(n); }
+        return path;
+      }
+      (adj[n.id] || []).forEach(function(m){ if(!seen[m.id]){ seen[m.id] = true; prev[m.id] = n; q.push(m); } });
+    }
+    return null;
+  }
+
+  function spawn(){
+    // end-to-end routes: from a drone or aircraft to GEO or to the other swarm
+    if(t > nextRoute){
+      nextRoute = t + rand(1.4, 2.4);
+      var srcs = nodes.filter(function(n){ return (n.type === 'uav' || n.type === 'air') && onScreen(n); });
+      if(!srcs.length) return;
+      var src = srcs[(Math.random() * srcs.length) | 0];
+      var toGeo = Math.random() < .5;
+      var path = route(src, function(n){
+        return toGeo ? n.type === 'geo' : (n.type === 'uav' && n.cluster !== src.cluster) || (n.type === 'air' && n !== src && src.type === 'uav');
+      });
+      if(path && path.length > 2){
+        var r = { path: path, life: 0 };
+        routes.push(r);
+        packets.push({ path: path, hop: 0, p: 0, speed: 260, route: r });
+      }
+    }
+  }
+
+  function stepPackets(dt){
+    packets = packets.filter(function(pk){
+      var a = pk.path[pk.hop], b = pk.path[pk.hop + 1];
+      pk.p += pk.speed * dt / Math.max(dist(a, b), 1);
+      if(pk.p >= 1){
+        pk.hop++; pk.p = 0;
+        if(pk.hop >= pk.path.length - 1){ if(pk.route) pk.route.done = true; return false; }
+      }
+      return true;
+    });
+    routes = routes.filter(function(r){
+      if(r.done) r.life += dt;
+      return r.life < .6;
+    });
+  }
+
+  // ---- drawing ----------------------------------------------------------
+  function drawEarth(){
+    var g = ctx.createRadialGradient(cx, cy, R * .9, cx, cy, R);
+    g.addColorStop(0, 'rgba(0,0,0,1)');
+    g.addColorStop(1, 'rgba(36,26,8,1)');
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+    // atmosphere glow
+    var a = ctx.createRadialGradient(cx, cy, R - 2, cx, cy, R + 26);
+    a.addColorStop(0, 'rgba(' + GOLD + ',.22)');
+    a.addColorStop(1, 'rgba(' + GOLD + ',0)');
+    ctx.beginPath(); ctx.arc(cx, cy, R + 26, 0, Math.PI * 2); ctx.fillStyle = a; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(' + GOLD + ',.45)'; ctx.lineWidth = 1; ctx.stroke();
+  }
+
+  function drawGuides(){
+    ctx.setLineDash([2, 7]); ctx.lineWidth = 1;
+    ['geo', 'meo', 'leo1', 'leo2'].forEach(function(l){
+      ctx.beginPath(); ctx.arc(cx, cy, radius(l), 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(' + CREAM + ',.07)'; ctx.stroke();
+    });
+    ctx.setLineDash([]);
+  }
+
+  function drawLinks(){
+    var hot = {};
+    routes.forEach(function(r){
+      var fade = 1 - r.life / .6;
+      for(var i = 1; i < r.path.length; i++){
+        var a = r.path[i - 1], b = r.path[i];
+        var k = a.id < b.id ? a.id + '-' + b.id : b.id + '-' + a.id;
+        hot[k] = Math.max(hot[k] || 0, fade);
+      }
+    });
+    ctx.lineCap = 'round';
+    for(var k in links){
+      var L = links[k];
+      var base = L.kind === 'isl' ? .42 : .24;
+      var col = L.kind === 'isl' ? GOLD : CREAM;
+      ctx.beginPath(); ctx.moveTo(L.a.x, L.a.y); ctx.lineTo(L.b.x, L.b.y);
+      if(L.kind === 'cross') ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = 'rgba(' + col + ',' + (base * L.alpha).toFixed(3) + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]);
+      if(hot[k]){
+        ctx.strokeStyle = 'rgba(' + GOLD + ',' + (.75 * hot[k] * L.alpha).toFixed(3) + ')';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+      }
+    }
+  }
+
+  function glow(x, y, r, a){
+    var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, 'rgba(' + GOLD + ',' + a + ')');
+    g.addColorStop(1, 'rgba(' + GOLD + ',0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+
+  function drawNodes(){
+    nodes.forEach(function(n){
+      if(!onScreen(n)) return;
+      var x = n.x, y = n.y;
+      ctx.lineWidth = 1.3;
+      if(n.type === 'geo'){
+        glow(x, y, 18, .18);
+        ctx.beginPath(); ctx.moveTo(x, y - 7.5); ctx.lineTo(x + 7, y + 5); ctx.lineTo(x - 7, y + 5); ctx.closePath();
+        ctx.fillStyle = '#3a2a08'; ctx.fill(); ctx.strokeStyle = '#f0b429'; ctx.lineJoin = 'round'; ctx.stroke();
+      } else if(n.type === 'meo'){
+        glow(x, y, 15, .14);
+        ctx.fillStyle = '#1b1406'; ctx.fillRect(x - 5, y - 5, 10, 10);
+        ctx.strokeStyle = '#e9c46a'; ctx.strokeRect(x - 5, y - 5, 10, 10);
+      } else if(n.type === 'leo'){
+        glow(x, y, 9, .28);
+        ctx.beginPath(); ctx.arc(x, y, 2.6, 0, Math.PI * 2); ctx.fillStyle = '#f0b429'; ctx.fill();
+      } else if(n.type === 'air'){
+        // chevron pointing along the direction of travel
+        var dir = n.speed >= 0 ? 1 : -1;
+        ctx.save(); ctx.translate(x, y); ctx.rotate(n.phi + dir * Math.PI / 2);
+        ctx.beginPath(); ctx.moveTo(0, -6); ctx.lineTo(4.5, 5); ctx.lineTo(0, 2.6); ctx.lineTo(-4.5, 5); ctx.closePath();
+        ctx.fillStyle = '#f2ede3'; ctx.fill(); ctx.restore();
+      } else {
+        ctx.beginPath(); ctx.arc(x, y, 4.2, 0, Math.PI * 2);
+        ctx.fillStyle = '#0b0906'; ctx.fill();
+        ctx.strokeStyle = '#f2ede3'; ctx.stroke();
+      }
+    });
+  }
+
+  function frame(dt){
+    t += dt;
+    place(dt);
+    computeLinks();
+    fadeLinks(dt);
+    if(!reduceMotion){ spawn(); stepPackets(dt); }
+    ctx.clearRect(0, 0, W, H);
+    drawGuides();
+    drawEarth();
+    drawLinks();
+    drawNodes();
+  }
+
+  function loop(now){
+    if(!running) return;
+    var dt = last ? Math.min((now - last) / 1000, .05) : 0;
+    last = now;
+    frame(dt);
+    requestAnimationFrame(loop);
+  }
+  function start(){ if(running || reduceMotion) return; running = true; last = 0; requestAnimationFrame(loop); }
+  function stop(){ running = false; }
+
+  function reset(){
+    layout(); build();
+    // settle links to full opacity so the first paint is not empty
+    place(0); computeLinks();
+    for(var k in links) links[k].alpha = 1;
+    frame(0);
+  }
+
+  reset();
+  var rw = W;
+  window.addEventListener('resize', function(){
+    var w = canvas.getBoundingClientRect().width;
+    if(Math.abs(w - rw) > 1 || canvas.getBoundingClientRect().height !== H){ rw = w; reset(); }
+  });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      visible = entries[0].isIntersecting;
+      visible ? start() : stop();
+    }).observe(canvas);
+  } else start();
+})();
+</script>
+
+<script>
+// ---- contact form ----------------------------------------------------
+// Sends the form as JSON to FormSubmit, which emails it to CONTACT_TO.
+// The first submission ever triggers a one-time activation email to that
+// address; nothing is forwarded until the link in it is clicked.
+(function(){
+  var CONTACT_TO = 'matteo@laniakea.technology';
+  var form = document.getElementById('contact-form');
+  if(!form) return;
+  var status = form.querySelector('.cf-status');
+  var button = form.querySelector('button[type=submit]');
+
+  function say(msg, cls){ status.textContent = msg; status.className = 'cf-status' + (cls ? ' ' + cls : ''); }
+
+  form.addEventListener('input', function(e){ e.target.classList.remove('cf-invalid'); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var bad = Array.prototype.filter.call(form.querySelectorAll('[required]'), function(el){ return !el.checkValidity(); });
+    bad.forEach(function(el){ el.classList.add('cf-invalid'); });
+    if(bad.length){ bad[0].focus(); say('Please fill in the required fields with a valid email address.', 'err'); return; }
+
+    var data = {};
+    Array.prototype.forEach.call(form.elements, function(el){ if(el.name) data[el.name] = el.value.trim(); });
+    if(data._honey) return;
+    data._subject = 'Website enquiry from ' + data['First name'] + ' ' + data['Last name'];
+    data._replyto = data.email;
+    data._template = 'table';
+    data._captcha = 'false';
+
+    button.disabled = true; say('Sending…');
+    fetch('https://formsubmit.co/ajax/' + CONTACT_TO, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function(r){ return r.json().then(function(j){ if(!r.ok || j.success === 'false' || j.success === false) throw j; }); })
+      .then(function(){ form.reset(); say('Thank you, your message has been sent. We will get back to you soon.', 'ok'); })
+      .catch(function(){ say('Sorry, something went wrong. Please try again in a moment.', 'err'); })
+      .then(function(){ button.disabled = false; });
   });
 })();
 </script>
