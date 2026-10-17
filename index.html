@@ -153,10 +153,15 @@
      Canvas animation of a multi-layer network: GEO, MEO, two LEO shells,
      aircraft and UAVs. Links form and break as nodes move; the script at
      the bottom of the page drives it. */
-  .problem-prose{margin-top:-16px}
-  .netviz{margin:44px 0 0; background:rgba(11,9,6,.62); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px);
+  .problem-layout{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:48px; align-items:center}
+  .problem-text .sub{margin-bottom:18px}
+  .problem-text .sub:last-child{margin-bottom:0}
+  .netviz{margin:0; background:rgba(11,9,6,.62); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px);
           border:1px solid var(--line); border-radius:12px; overflow:hidden}
-  .netviz canvas{display:block; width:100%; height:460px}
+  .netviz canvas{display:block; width:100%; height:400px}
+  @media (max-width:900px){
+    .problem-layout{grid-template-columns:1fr; gap:36px}
+  }
   @media (max-width:700px){
     .netviz canvas{height:340px}
   }
@@ -180,7 +185,6 @@
     outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(240,180,41,.18)
   }
   .contact-form .cf-invalid{border-color:#e07a5f}
-  .cf-date input{max-width:240px; color-scheme:dark}
   .cf-honey{position:absolute; left:-9999px; width:1px; height:1px; opacity:0}
   .cf-actions{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
   .cf-actions .cta{border:0; cursor:pointer; font-family:inherit}
@@ -240,28 +244,29 @@
 <section id="problem">
   <div class="wrap">
     <h2>The problem</h2>
-    <p class="sub">
-      Dynamic networks such as satellite constellations are growing larger, orbiting closer to Earth
-      and linking across layers: to satellites in other orbits, to UAVs and to aircraft.
-      Traditional management tools are inefficient and too specialised to scale.
-    </p>
+    <div class="problem-layout">
+      <div class="problem-text">
+        <p class="sub">
+          Dynamic networks such as satellite constellations are growing larger, orbiting closer to Earth
+          and linking across layers: to satellites in other orbits, to UAVs and to aircraft.
+          Traditional management tools are inefficient and too specialised to scale.
+        </p>
+        <p class="sub">
+          The network dynamics are extreme. A LEO satellite travels at roughly 7.5&nbsp;km/s
+          through a mesh of thousands of links that reach other LEO satellites, drones, aircraft and
+          satellites in different orbits. The topology never stops changing, and classical methods
+          under-perform under these conditions.
+        </p>
+        <p class="sub">
+          Performance requirements are rising. For 5G and beyond, next-generation
+          non-terrestrial networks target an order-of-magnitude gain over today&rsquo;s performance requirements.
+        </p>
+      </div>
 
-    <div class="prose problem-prose">
-      <p>
-        <strong>The network dynamics are extreme.</strong> A LEO satellite travels at roughly 7.5&nbsp;km/s
-        through a mesh of thousands of links that reach other LEO satellites, drones, aircraft and
-        satellites in different orbits. The topology never stops changing, and classical methods
-        under-perform under these conditions.
-      </p>
-      <p>
-        <strong>Performance requirements are rising.</strong> For 5G and beyond, next-generation
-        non-terrestrial networks target an order-of-magnitude gain over today&rsquo;s performance requirements.
-      </p>
+      <figure class="netviz" aria-label="Animated illustration of a dynamic network spanning GEO, MEO and LEO satellites, aircraft and drones">
+        <canvas id="netviz-canvas"></canvas>
+      </figure>
     </div>
-
-    <figure class="netviz" aria-label="Animated illustration of a dynamic network spanning GEO, MEO and LEO satellites, aircraft and drones">
-      <canvas id="netviz-canvas"></canvas>
-    </figure>
   </div>
 </section>
 
@@ -368,10 +373,6 @@
       <label class="cf-field">
         <span class="cf-label">Phone</span>
         <input type="tel" name="Phone" autocomplete="tel">
-      </label>
-      <label class="cf-field cf-date">
-        <span class="cf-label">Project start date</span>
-        <input type="date" name="Project start date">
       </label>
       <label class="cf-field">
         <span class="cf-label">Project details <em>(required)</em></span>
@@ -532,7 +533,7 @@ var NEWS = [
       for(var k in extra) n[k] = extra[k];
       nodes.push(n); return n;
     }
-    var narrow = W < 640;
+    var narrow = W < 480;
     var range = 2 * PHI;
     // GEO: fixed relative to the ground
     (narrow ? [-0.4, 0.45] : [-0.5, 0.05, 0.6]).forEach(function(f){ add('geo', 'geo', f * PHI, 0); });
