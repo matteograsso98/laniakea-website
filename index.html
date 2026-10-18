@@ -31,9 +31,15 @@
   .brand svg{width:22px; height:22px; flex:none}
   .brand img{height:26px; width:auto; display:block; flex:none}
   .nav{margin-left:auto; display:flex; align-items:center; gap:22px}
-  .nav a{color:var(--fg-dim); text-decoration:none; font-size:13.5px; font-weight:560; letter-spacing:.02em}
+  .nav a{color:var(--fg-dim); text-decoration:none; font-size:13.5px; font-weight:560; letter-spacing:.02em; white-space:nowrap}
   .nav a:hover{color:var(--fg)}
   .nav a.nav-cta{color:var(--accent)}
+  @media (max-width:420px){
+    header .wrap{padding:0 16px}
+    .brand img{height:21px}
+    .nav{gap:14px}
+    .nav a{font-size:12.5px}
+  }
 
   /* ---- news banner --------------------------------------------------
      Data-driven strip that always surfaces the newest item from the
@@ -194,6 +200,17 @@
   .cf-status.err{color:#e07a5f}
   @media (max-width:560px){ .cf-row{grid-template-columns:1fr} }
 
+  /* ---- partners band ---------------------------------------------------
+     Logos are light single-colour PNGs on transparent backgrounds so they
+     sit on the dark band without a white box. Add more <li> to extend. */
+  .partners{background:var(--bg-soft); padding:44px 0}
+  .partners-inner{display:flex; flex-direction:column; align-items:center; gap:22px; text-align:center}
+  .partners-label{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-dim)}
+  .partners-logos{list-style:none; margin:0; padding:0; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:28px 64px}
+  .partners-logos img{display:block; height:112px; width:auto; opacity:.9}
+
+  .dev-note{margin:40px 0 0; padding-top:22px; border-top:1px solid var(--line); max-width:760px; font-size:14.5px; color:var(--fg-dim)}
+
   footer{border-top:1px solid var(--line); padding:44px 0; color:var(--fg-dim); font-size:13.5px}
   footer .wrap{display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between}
   footer a{color:var(--fg-dim)}
@@ -347,6 +364,15 @@
   </div>
 </section>
 
+<section id="partners" class="partners" aria-label="Partners">
+  <div class="wrap partners-inner">
+    <span class="partners-label">Partners</span>
+    <ul class="partners-logos">
+      <li><img src="assets/esa-bic.png" alt="ESA Business Incubation Centre" width="130" height="130"></li>
+    </ul>
+  </div>
+</section>
+
 <section id="contact">
   <div class="wrap">
     <h2>Contact</h2>
@@ -385,6 +411,11 @@
         <p class="cf-status" role="status" aria-live="polite"></p>
       </div>
     </form>
+
+    <p class="dev-note">
+      For developers: browse our open-source repositories on
+      <a href="https://github.com/orgs/laniakea-technology/repositories" target="_blank" rel="noopener">GitHub</a>.
+    </p>
   </div>
 </section>
 
