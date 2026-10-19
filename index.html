@@ -208,6 +208,15 @@
   .partners-label{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-dim)}
   .partners-logos{list-style:none; margin:0; padding:0; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:28px 64px}
   .partners-logos img{display:block; height:112px; width:auto; opacity:.9}
+  /* optical sizing: wide logos get less height so all read at a similar weight */
+  .partners-logos .logo-dlr{height:88px}
+  .partners-logos .logo-sic{height:62px; opacity:1}
+  @media (max-width:560px){
+    .partners-logos{gap:28px 36px}
+    .partners-logos img{height:84px}
+    .partners-logos .logo-dlr{height:66px}
+    .partners-logos .logo-sic{height:48px}
+  }
 
   .dev-note{margin:40px 0 0; padding-top:22px; border-top:1px solid var(--line); max-width:760px; font-size:14.5px; color:var(--fg-dim)}
 
@@ -369,6 +378,8 @@
     <span class="partners-label">Partners</span>
     <ul class="partners-logos">
       <li><img src="assets/esa-bic.png" alt="ESA Business Incubation Centre" width="130" height="130"></li>
+      <li><img src="assets/dlr.png" alt="DLR – German Aerospace Center" width="242" height="200" class="logo-dlr"></li>
+      <li><img src="assets/space-innovation-cup.png" alt="Space Innovation Cup Vol. 1" width="477" height="192" class="logo-sic"></li>
     </ul>
   </div>
 </section>
